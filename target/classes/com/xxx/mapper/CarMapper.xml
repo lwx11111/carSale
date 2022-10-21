@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xxx.mapper.CarMapper">
+
+    <insert id="AddNewCar" parameterType="com.xxx.entity.Car" useGeneratedKeys="true" keyProperty="cid">
+        insert into car(brand,model,price,time,pic,color,age,location,mile)
+        values (#{brand},#{model},#{price},#{time},#{pic},
+                #{color,jdbcType=VARCHAR},#{age,jdbcType=INTEGER},#{location,jdbcType=VARCHAR},#{mile,jdbcType=FLOAT})
+
+    </insert>
+
+    <select id="SelectAllCar"  resultType="com.xxx.entity.Car">
+        select *
+        from car;
+    </select>
+
+    <select id="SelectMyCar" parameterType="int"  resultType="com.xxx.entity.Car">
+        select *
+        from car
+        where cid=any(select cid
+                    from post
+                    where uid=#{uid})
+    </select>
+
+    <delete id="deleteCar" parameterType="int">
+        delete
+        from car
+        where cid=#{cid}
+    </delete>
+
+    <select id="selectCar" parameterType="int" resultType="com.xxx.entity.Car">
+        select *
+        from car
+        where cid=#{cid}
+    </select>
+
+    <select id="selectMyPurchase" parameterType="int" resultType="com.xxx.entity.Car">
+        select *
+        from car
+        where cid=any(select cid
+                      from purchase
+                      where uid=#{uid})
+    </select>
+
+    <insert id="insertPurchase" parameterType="int">
+        insert into purchase(uid,cid)
+        values (#{arg0},#{arg1})
+    </insert>
+
+
+
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xxx.mapper.UserMapper">
+
+    <select id="findByUname" parameterType="String" resultType="com.xxx.entity.User">
+        select *
+        from login
+        where uname=#{uname}
+
+    </select>
+
+    <insert id="addNewUser" parameterType="com.xxx.entity.User" useGeneratedKeys="true" keyProperty="uid">
+        insert into login(uname,upwd,nickname,profile,picPath)
+        values (#{uname},#{upwd},#{nickname},#{profile},#{picPath})
+    </insert>
+
+    <select id="isHaveUname" parameterType="String" resultType="boolean">
+        select exists (SELECT 1
+        FROM login
+        WHERE uname=#{uname})
+    </select>
+
+    <update id="uploadUserPic" parameterType="String" >
+        update login
+        set picPath=#{arg0}
+        where uname=#{arg1}
+    </update>
+
+    <update id="uploadUserNickname" parameterType="String" >
+        update login
+        set nickname=#{arg0}
+        where uname=#{arg1}
+    </update>
+
+    <update id="uploadUserProfile" parameterType="String" >
+        update login
+        set profile=#{arg0}
+        where uname=#{arg1}
+    </update>
+
+    <update id="uploadUserUpwd" parameterType="String" >
+        update login
+        set upwd=#{arg0}
+        where uname=#{arg1}
+    </update>
+
+</mapper>

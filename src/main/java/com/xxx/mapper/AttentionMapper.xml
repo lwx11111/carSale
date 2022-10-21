@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xxx.mapper.AttentionMapper">
+
+    <insert id="insertAttention" parameterType="int" >
+        insert into attention(uid,cid)
+        values (#{arg0},#{arg1})
+
+    </insert>
+
+    <select id="selectMyAttention" parameterType="int" resultType="com.xxx.entity.Car">
+        select *
+        from car
+        where cid=any(select cid
+                    from attention
+                    where uid=#{uid})
+    </select>
+
+    <delete id="deleteAttention" parameterType="int">
+        delete
+        from attention
+        where cid=#{cid}
+    </delete>
+
+
+</mapper>
